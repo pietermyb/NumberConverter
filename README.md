@@ -1,2 +1,2 @@
 # NumberConverter
-Sample Number Converter
+Sample Number to English Words Converter
