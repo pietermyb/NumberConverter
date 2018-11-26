@@ -21,8 +21,8 @@ namespace NumberConvertor
 
         public static bool IsNumericFromTryParse(string str)
         {
-            return (double.TryParse(str, System.Globalization.NumberStyles.Float,
-                    System.Globalization.NumberFormatInfo.CurrentInfo, out double result));
+            return double.TryParse(str, System.Globalization.NumberStyles.Float,
+                    System.Globalization.NumberFormatInfo.CurrentInfo, out double result);
         }
 
         public static string ToWords(this string stringNumber)
@@ -30,7 +30,7 @@ namespace NumberConvertor
             var number = Convert.ToDecimal(stringNumber);
 
             if (number < 0)
-                return "negative " + ToWords(Math.Abs(number).ToString());
+            { return "negative " + ToWords(Math.Abs(number).ToString()); }
 
             int intPortion = (int)number;
             int decPortion = (int)((number - intPortion) * (decimal)100);
@@ -48,7 +48,9 @@ namespace NumberConvertor
             if (number < 100)
             {
                 if (number < 20)
+                {
                     numString = ones[number];
+                }
                 else
                 {
                     numString = tens[number / 10];

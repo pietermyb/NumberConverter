@@ -15,7 +15,7 @@ namespace NumberConvertor
 
             while (GoodEnoughNumberUtilities.IsNumeric(stringNumber))
             {
-                var englishWords = GoodEnoughNumberUtilities.NumberToWords(Convert.ToInt32(stringNumber));
+                var englishWords = GoodEnoughNumberUtilities.ToWords(Convert.ToInt32(stringNumber));
                 Console.WriteLine(englishWords);
                 Console.WriteLine("Please enter another number:");
                 stringNumber = Console.ReadLine();
