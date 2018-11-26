@@ -2,9 +2,10 @@
 
 namespace NumberConvertor
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             Console.WriteLine("------------------");
             Console.WriteLine("Good Enough Method");
@@ -13,12 +14,19 @@ namespace NumberConvertor
 
             var stringNumber = Console.ReadLine();
 
-            while (GoodEnoughNumberUtilities.IsNumeric(stringNumber))
+            try
             {
-                var englishWords = GoodEnoughNumberUtilities.ToWords(Convert.ToInt32(stringNumber));
-                Console.WriteLine(englishWords);
-                Console.WriteLine("Please enter another number:");
-                stringNumber = Console.ReadLine();
+                while (GoodEnoughNumberUtilities.IsNumeric(stringNumber))
+                {
+                    var englishWords = GoodEnoughNumberUtilities.ToWords(Convert.ToInt32(stringNumber));
+                    Console.WriteLine(englishWords);
+                    Console.WriteLine("Please enter another number:");
+                    stringNumber = Console.ReadLine();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Oh no. That number is not good enough. Lets try something better.");
             }
 
             Console.WriteLine("------------------");
@@ -27,12 +35,19 @@ namespace NumberConvertor
             Console.WriteLine("Please enter a number:");
 
             stringNumber = Console.ReadLine();
-            
-            while (BetterNumberUtilities.IsNumericFromTryParse(stringNumber))
+
+            try
             {
-                Console.WriteLine(stringNumber.ToWords());
-                Console.WriteLine("Please enter another number:");
-                stringNumber = Console.ReadLine();
+                while (BetterNumberUtilities.IsNumericFromTryParse(stringNumber))
+                {
+                    Console.WriteLine(stringNumber.ToWords());
+                    Console.WriteLine("Please enter another number:");
+                    stringNumber = Console.ReadLine();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Oh no. That number is not even handled by the better method. Shame.");
             }
 
             Console.WriteLine("Done. Press Enter key to exit");

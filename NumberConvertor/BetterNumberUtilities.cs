@@ -4,18 +4,19 @@ namespace NumberConvertor
 {
     public static class BetterNumberUtilities
     {
-        #region Strings 
+        #region Strings
 
         private static readonly string[] ones = {
             "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-            "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
+            "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+            "eighteen", "nineteen"
         };
 
         private static readonly string[] tens = { "zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
 
         private static readonly string[] thousands = { "hundred", "thousand", "million", "billion", "trillion", "quadrillion" };
 
-        #endregion
+        #endregion Strings
 
         #region Public Methods
 
@@ -32,35 +33,48 @@ namespace NumberConvertor
             if (number < 0)
             { return "negative " + ToWords(Math.Abs(number).ToString()); }
 
-            int intPortion = (int)number;
-            int decPortion = (int)((number - intPortion) * (decimal)100);
-
+            double intPortion = (double)number;
+            int decPortion = 0;
+            if(stringNumber.Contains(","))
+            {
+                var regex = new System.Text.RegularExpressions.Regex("(?<=[\\,])[0-9]+");
+                string decimal_places = regex.Match(stringNumber).Value;
+                decPortion = Convert.ToInt32(decimal_places);
+            }
+            
             return string.Format($"{ToWords(intPortion)} rand and {ToWords(decPortion)} cents");
-        } 
-
-        #endregion
+        }
+        #endregion Public Methods
 
         #region Private Methods
 
-        private static string ToWords(int number, string appendScale = "")
+        private static string ToWords(double number, string appendScale = "")
         {
             string numString = "";
+
             if (number < 100)
             {
                 if (number < 20)
                 {
-                    numString = ones[number];
+                    //Dont add the word zero if its led by a scale
+                    if (!string.IsNullOrEmpty(appendScale) || (int)number != 0)
+                    { numString = ones[(int)number]; }
+                    else
+                    { numString = "zero"; }
                 }
                 else
                 {
-                    numString = tens[number / 10];
+                    numString = tens[(int)number / 10];
                     if ((number % 10) > 0)
-                        numString += "-" + ones[number % 10];
+                    {
+                        if (!string.IsNullOrEmpty(appendScale) || (int)number % 10 != 0)
+                        { numString += "-" + ones[(int)number % 10]; }
+                    }
                 }
             }
             else
             {
-                int pow = 0;
+                double pow = 0;
                 string powStr = "";
 
                 if (number < 1000) // number is between 100 and 1000
@@ -70,8 +84,8 @@ namespace NumberConvertor
                 }
                 else // find the scale of the number
                 {
-                    int log = (int)Math.Log(number, 1000);
-                    pow = (int)Math.Pow(1000, log);
+                    int log = (int)Math.Log(number, 1000);//Potential future issue here if value grows lager than ints max
+                    pow = Math.Pow(1000, log);
                     powStr = thousands[log];
                 }
 
@@ -79,7 +93,8 @@ namespace NumberConvertor
             }
 
             return $"{numString} {appendScale}".Trim();
-        } 
-        #endregion
+        }
+
+        #endregion Private Methods
     }
 }

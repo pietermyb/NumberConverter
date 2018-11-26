@@ -9,7 +9,7 @@ namespace NumberConvertor
             try
             {
                 str = str.Trim();
-                int possibleNumber = int.Parse(str);
+                double possibleNumber = double.Parse(str);
                 return true;
             }
             catch (FormatException)
