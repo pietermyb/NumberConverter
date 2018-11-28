@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NumberConvertor
+namespace NumberParser
 {
     public class GoodEnoughNumberUtilities
     {
@@ -9,7 +9,7 @@ namespace NumberConvertor
             try
             {
                 str = str.Trim();
-                double possibleNumber = double.Parse(str);
+                var possibleNumber = double.Parse(str);
                 return true;
             }
             catch (FormatException)
@@ -27,13 +27,9 @@ namespace NumberConvertor
             if (number < 0)
                 return "minus " + ToWords(Math.Abs(number));
 
-            string words = "";
+            var words = "";
 
-            if ((number / 1000000) > 0)
-            {
-                words += ToWords(number / 1000000000) + " billion ";
-                number %= 1000000000; //Reduce number size
-            }
+          
 
             if ((number / 1000000) > 0)
             {
